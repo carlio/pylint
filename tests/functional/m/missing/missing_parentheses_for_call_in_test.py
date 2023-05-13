@@ -128,3 +128,31 @@ def _cpu_count() -> int:
         print(sched_getaffinity)
     elif multiprocessing:
         multiprocessing.cpu_count()
+
+
+class Child:
+    @property
+    def nice(self) -> bool:
+        return False
+
+    def is_nice(self) -> bool:
+        return False
+
+    def is_naughty(self) -> bool:
+        return True
+
+
+child = Child()
+
+if not child.is_nice:  # [missing-parentheses-for-call-in-test]
+    # because bool(child.is_nice) is always true as callables are truthy, this will never be reached
+    print('coal')
+
+if child.is_nice is False:  # [missing-parentheses-for-call-in-test]
+    print('coal')
+
+if child.is_naughty(): # this is fine
+    print('coal')
+
+if child.nice: # this is fine
+    print('presents')
